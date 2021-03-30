@@ -1,7 +1,7 @@
 part of logger_flutter;
 
 ListQueue<OutputEvent> _outputEventBuffer = ListQueue();
-int _bufferSize = 20;
+final int _bufferSize = 200;
 bool _initialized = false;
 
 class LogConsole extends StatefulWidget {
@@ -11,13 +11,12 @@ class LogConsole extends StatefulWidget {
   LogConsole({this.dark = false, this.showCloseButton = false})
       : assert(_initialized, "Please call LogConsole.init() first.");
 
-  static void init({int bufferSize = 20}) {
+  static void init() {
     if (_initialized) return;
 
-    _bufferSize = bufferSize;
     _initialized = true;
     Logger.addOutputListener((e) {
-      if (_outputEventBuffer.length == bufferSize) {
+      if (_outputEventBuffer.length == _bufferSize) {
         _outputEventBuffer.removeFirst();
       }
       _outputEventBuffer.add(e);
@@ -47,7 +46,7 @@ class _LogConsoleState extends State<LogConsole> {
   var _filterController = TextEditingController();
 
   Level _filterLevel = Level.verbose;
-  double _logFontSize = 14;
+  double _logFontSize = 12;
 
   var _currentId = 0;
   bool _scrollListenerEnabled = true;
@@ -101,13 +100,16 @@ class _LogConsoleState extends State<LogConsole> {
         return true;
       }
     }).toList();
-    setState(() {
-      _filteredBuffer = newFilteredBuffer;
-    });
 
-    if (_followBottom) {
-      Future.delayed(Duration.zero, _scrollToBottom);
-    }
+    Future.delayed(Duration.zero, () {
+      setState(() {
+        _filteredBuffer = newFilteredBuffer;
+      });
+
+      if (_followBottom) {
+        Future.delayed(Duration.zero, _scrollToBottom);
+      }
+    });
   }
 
   @override
@@ -188,13 +190,23 @@ class _LogConsoleState extends State<LogConsole> {
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           Text(
-            "Log Console",
+            "Debug Log",
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
           ),
           Spacer(),
+          IconButton(
+            icon: Icon(Icons.upload_file),
+            onPressed: () {
+              String output = "FreeSK8 Debug $_filterLevel";
+              _filteredBuffer.forEach((element) {
+                output = "$output\n${element.span.toPlainText()}";
+              });
+              Share.text('FreeSK8 Debug $_filterLevel', output, 'text/plain');
+            },
+          ),
           IconButton(
             icon: Icon(Icons.add),
             onPressed: () {

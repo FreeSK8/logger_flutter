@@ -13,5 +13,7 @@ import 'package:logger/logger.dart';
 import 'src/ansi_parser.dart';
 import 'src/shake_detector.dart';
 
+import 'package:esys_flutter_share/esys_flutter_share.dart';
+
 part 'src/log_console_on_shake.dart';
 part 'src/log_console.dart';

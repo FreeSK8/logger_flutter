@@ -40,7 +40,7 @@ class _LogConsoleOnShakeState extends State<LogConsoleOnShake> {
 
   _init() {
     LogConsole.init();
-    _detector = ShakeDetector(onPhoneShake: _openLogConsole);
+    _detector = ShakeDetector(onPhoneShake: _openLogConsole, minShakeCount: 3);
     _detector.startListening();
   }
 

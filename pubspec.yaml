@@ -11,5 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  logger: ">=0.7.0"
+  logger: "0.7.0"
   sensors: ^0.4.0+1
+
+  esys_flutter_share: ^1.0.2 #https://pub.dev/packages/esys_flutter_share/changelog
