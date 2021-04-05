@@ -202,7 +202,17 @@ class _LogConsoleState extends State<LogConsole> {
             onPressed: () {
               String output = "FreeSK8 Debug $_filterLevel";
               _filteredBuffer.forEach((element) {
-                output = "$output\n${element.span.toPlainText()}";
+                //TODO: This isn't guaranteed
+                output = "$output\n${element.span.toPlainText().split("\n")[1]}";
+                //TODO: This isn't elegant
+                /*
+                var textLines = element.span.toPlainText().split("\n");
+                textLines.forEach((line) {
+                  if (!line.contains("────────────────────────────")) {
+                    output = "$output\n$line";
+                  }
+                });
+                 */
               });
               Share.text('FreeSK8 Debug $_filterLevel', output, 'text/plain');
             },
