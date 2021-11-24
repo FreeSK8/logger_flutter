@@ -4,11 +4,13 @@ class LogConsoleOnShake extends StatefulWidget {
   final Widget child;
   final bool dark;
   final bool debugOnly;
+  final bool showOnShake;
 
   LogConsoleOnShake({
     @required this.child,
     this.dark,
     this.debugOnly = true,
+    this.showOnShake = true,
   });
 
   @override
@@ -35,6 +37,7 @@ class _LogConsoleOnShakeState extends State<LogConsoleOnShake> {
 
   @override
   Widget build(BuildContext context) {
+    _detector.showOnShake(widget.showOnShake);
     return widget.child;
   }
 

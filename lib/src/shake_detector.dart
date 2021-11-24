@@ -15,6 +15,8 @@ class ShakeDetector {
 
   final int minShakeCount;
 
+  bool _showOnShake;
+
   int shakeCount = 0;
 
   int lastShakeTimestamp = DateTime.now().millisecondsSinceEpoch;
@@ -53,7 +55,7 @@ class ShakeDetector {
         lastShakeTimestamp = now;
         if (++shakeCount >= minShakeCount) {
           shakeCount = 0;
-          onPhoneShake();
+          if (_showOnShake) onPhoneShake();
         }
       }
     });
@@ -64,5 +66,9 @@ class ShakeDetector {
     if (streamSubscription != null) {
       streamSubscription.cancel();
     }
+  }
+
+  void showOnShake(bool showOnShake) {
+    _showOnShake = showOnShake;
   }
 }
